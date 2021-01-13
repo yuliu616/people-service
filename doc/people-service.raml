@@ -1,0 +1,99 @@
+#%RAML 1.0
+title: people-service REST API
+version: 1.0.x
+description: |
+  provide admin function for managing people info
+types:
+  LocalDate:
+    description: date without time, formatted like this `2017-10-24`.
+  DateTime:
+    description: instant of time without time zone concept.
+  People:
+    type: object
+    examples:
+      simple:
+        {
+          "id": "33007",
+          "version": 1,
+          "creationDate": "2021-01-13T03:58:49Z",
+          "lastUpdated": "2021-01-13T03:58:49Z",
+          "nickname": "Johnson",
+          "gender": "MALE",
+          "dateOfBirth": "1995-07-24",
+          "firstName": "Johnson",
+          "lastName": "Li",
+          "heightInCm": 162.00,
+          "weightInKg": 65.1000,
+          "active": true
+        }
+
+baseUri: http://localhost:8082/api
+
+/about:
+  get:
+    response:
+      200:
+        body:
+          application/json:
+            type: object
+            example: |
+              {
+                  "serviceName": "people-service"
+                  "apiVersion": "1.0",
+                  "currentTime": "2020-11-30T02:43:11.856543Z",
+                  "currentDate": "2020-11-30",
+              }
+/people:
+  get:
+    description: |
+      list all people.
+    queryParameters: 
+      offset: integer
+      size: integer
+    responses: 
+      200:
+        body:
+          application/json:
+            type: People[]
+  post:
+    description: |
+      create new people with the posted data.
+    body: 
+      application/json:
+        type: People
+    responses: 
+      200:
+        body:
+          application/json:
+            description: the newly created People
+            type: People
+  /{id}:
+    get:
+      description: |
+        get People with target ID.
+      responses:
+        200:
+          body:
+            application/json:
+              type: People
+    put:
+      description: |
+        update People with target ID.
+      body: 
+        application/json:
+          type: People
+      responses:
+        200:
+          body:
+            application/json:
+              type: People
+/dict:
+  /Gender:
+    get:
+      description: |
+        list all Gender (enum).
+      responses: 
+        200:
+          body:
+            application/json:
+              type: string[]
