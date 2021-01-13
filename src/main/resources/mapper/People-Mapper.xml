@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yu.modelMapper.PeopleMapper">
+  <sql id="peopleColumns">
+    ${alias}.version,
+    ${alias}.creation_date as creationDate,
+    ${alias}.last_updated as lastUpdated,
+    ${alias}.is_active as isActive,
+    ${alias}.gender,
+    ${alias}.nickname,
+    ${alias}.date_of_birth as dateOfBirth,
+    ${alias}.first_name as firstName,
+    ${alias}.last_name as lastName,
+    ${alias}.height_in_cm as heightInCm,
+    ${alias}.weight_in_kg as weightInKg</sql>
+  <select id="findPeopleById"
+          parameterType="String"
+          resultType="com.yu.model.People">
+    SELECT id,
+    <include refid="peopleColumns">
+      <property name="alias" value="it" />
+    </include>
+    FROM ppl_people as it
+    WHERE it.id = #{id}
+  </select>
+  <select id="listAllPeople" resultType="com.yu.model.People">
+    SELECT id,
+    <include refid="peopleColumns">
+      <property name="alias" value="it" />
+    </include>
+    FROM ppl_people as it
+    WHERE it.is_active = #{isActive}
+    LIMIT #{pageOffset},#{pageSize}
+  </select>
+  <insert id="generatePeopleId"
+          useGeneratedKeys="true"
+          keyProperty="id"
+          parameterType="com.yu.model.IntegerId">
+    insert ppl_people_id values ()
+  </insert>
+  <insert id="insertPeopleWithModel"
+          parameterType="com.yu.model.People">
+    insert ppl_people (id, version,
+      is_active, gender, nickname, date_of_birth,
+      first_name, last_name, height_in_cm, weight_in_kg)
+    values (#{it.id}, 1,
+      #{it.isActive}, #{it.gender}, #{it.nickname}, #{it.dateOfBirth},
+      #{it.firstName}, #{it.lastName}, #{it.heightInCm}, #{it.weightInKg})
+  </insert>
+  <update id="updatePeopleWithModel"
+          parameterType="com.yu.model.People">
+    update ppl_people
+    set version = version+1,
+      last_updated = CURRENT_TIMESTAMP,
+      is_active = #{it.isActive},
+      gender = #{it.gender},
+      nickname = #{it.nickname},
+      date_of_birth = #{it.dateOfBirth},
+      first_name = #{it.firstName},
+      last_name = #{it.lastName},
+      height_in_cm = #{it.heightInCm},
+      weight_in_kg = #{it.weightInKg}
+    where id = #{it.id} and version = #{it.version}
+  </update>
+</mapper>
