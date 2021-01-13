@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS `ppl_people_id`;
+
+CREATE TABLE `ppl_people_id` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=10001;
