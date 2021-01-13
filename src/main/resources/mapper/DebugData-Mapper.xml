@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yu.modelMapper.DebugDataMapper">
+  <update id="enableAllPeople">
+    update ppl_people set is_active=1
+  </update>
+  <update id="resetVersionOfAllPeople">
+    update ppl_people set version=1
+  </update>
+</mapper>
