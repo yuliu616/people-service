@@ -8,6 +8,14 @@ spring:
     hikari:
       maximum-pool-size: 100
 
+auth-service:
+  jwt:
+    public-key-PEM:
+      -----BEGIN PUBLIC KEY-----
+      MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAE+Ft3AzB+xBNaoBOYU0fj3+mAnrM+aYIA
+      8MVZV/s28qH6mGcUfrqGnKMu7t+EVmTP0f3RGOd6sO1AnhsqkLzCrQ==
+      -----END PUBLIC KEY-----
+
 people-service:
   service-name: people-service
   api-version: 1.0
@@ -15,3 +23,11 @@ people-service:
   model-mapper-location: classpath:mapper/*-Mapper.xml
   options:
     enable-debug-endpoint: true
+    accept-expired-auth-token: true
+  role-permission-config:
+    permission-map:
+      ROOT_ADMIN:
+      - BASIC
+      - ANYTHING
+      GENERAL_USER:
+      - BASIC
