@@ -45,6 +45,18 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(apiBaseUrl+"/about")
                     .permitAll()
 
+                .antMatchers(HttpMethod.GET, apiBaseUrl+"/people")
+                    .hasAnyAuthority(Permission.ANYTHING.name(), Permission.PEOPLE_SEARCH.name())
+                .antMatchers(HttpMethod.POST, apiBaseUrl+"/people")
+                    .hasAnyAuthority(Permission.ANYTHING.name(), Permission.PEOPLE_ADD.name())
+                .antMatchers(HttpMethod.GET, apiBaseUrl+"/people/*")
+                    .hasAnyAuthority(Permission.ANYTHING.name(), Permission.PEOPLE_GET.name())
+                .antMatchers(HttpMethod.PUT, apiBaseUrl+"/people/*")
+                   .hasAnyAuthority(Permission.ANYTHING.name(), Permission.PEOPLE_UPDATE.name())
+
+                .antMatchers(HttpMethod.GET, apiBaseUrl+"/dict/*")
+                    .authenticated()
+
                 .anyRequest().denyAll()
         ;
 //        http.authorizeRequests().anyRequest().permitAll();

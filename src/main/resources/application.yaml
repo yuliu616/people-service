@@ -31,3 +31,12 @@ people-service:
       - ANYTHING
       GENERAL_USER:
       - BASIC
+      - PEOPLE_GET
+      - PEOPLE_SEARCH
+      PEOPLE_ADMIN:
+      - BASIC
+      - PEOPLE_GET
+      - PEOPLE_SEARCH
+      - PEOPLE_ADD
+      - PEOPLE_UPDATE
+      - PEOPLE_DELETE
