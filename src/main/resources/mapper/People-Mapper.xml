@@ -64,4 +64,17 @@
       weight_in_kg = #{it.weightInKg}
     where id = #{it.id} and version = #{it.version}
   </update>
+  <select id="findPeopleWithNameSimilarTo" resultType="com.yu.model.People">
+    SELECT id,
+    <include refid="peopleColumns">
+      <property name="alias" value="it" />
+    </include>
+    FROM ppl_people as it
+    WHERE it.is_active = #{isActive}
+      and (it.nickname regexp #{namePattern}
+        or it.first_name regexp #{namePattern}
+        or it.last_name regexp #{namePattern}
+      )
+    LIMIT #{pageOffset},#{pageSize}
+  </select>
 </mapper>

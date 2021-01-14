@@ -272,3 +272,75 @@ describe('people', function(){
   });
 
 });
+
+describe('people search', function(){
+
+  it('could list people with first name', async function(){
+    // search people
+    let res = await axios.get(`${apiBaseUrl}/people/search/withNameSimilarTo`, {
+      params: {
+        namePattern: '^Wang$',
+        size: 4,
+      },
+    });
+    expect(res.data).is.an('array');
+    expect(res.data).to.have.length.at.least(4);
+    expect(res.data[0]).is.an('object');
+    expect(res.data[1]).is.an('object');
+    expect(res.data[2]).is.an('object');
+    expect(res.data[3]).is.an('object');
+    expect(res.data[0].id).to.match(numberOnlyPattern).that.exist;
+    expect(res.data[0].version).at.least(1);
+    expect(res.data[0].creationDate).to.match(dateTimeNoZonePattern).that.exist;
+    expect(res.data[0].lastUpdated).to.match(dateTimeNoZonePattern).that.exist;
+    expect(res.data[1].lastName).eq('Wang');
+    expect(res.data[2].lastName).eq('Wang');
+    expect(res.data[3].lastName).eq('Wang');
+  });
+
+  it('could list people with last name', async function(){
+    // search people
+    let res = await axios.get(`${apiBaseUrl}/people/search/withNameSimilarTo`, {
+      params: {
+        namePattern: '^Zh',
+        size: 4,
+      },
+    });
+    expect(res.data).is.an('array');
+    expect(res.data).to.have.length.at.least(4);
+    expect(res.data[0]).is.an('object');
+    expect(res.data[1]).is.an('object');
+    expect(res.data[2]).is.an('object');
+    expect(res.data[3]).is.an('object');
+    expect(res.data[0].id).to.match(numberOnlyPattern).that.exist;
+    expect(res.data[0].version).at.least(1);
+    expect(res.data[0].creationDate).to.match(dateTimeNoZonePattern).that.exist;
+    expect(res.data[0].lastUpdated).to.match(dateTimeNoZonePattern).that.exist;
+    expect(res.data[1].lastName).eq('Zhang');
+    expect(res.data[2].lastName).eq('Zhang');
+    expect(res.data[3].lastName).eq('Zhang');
+  });
+
+  it('could list people by part of name', async function(){
+    // search people
+    let res = await axios.get(`${apiBaseUrl}/people/search/withNameSimilarTo`, {
+      params: {
+        namePattern: '(mm|nn|ll)',
+        size: 3,
+      },
+    });
+    expect(res.data).is.an('array');
+    expect(res.data).to.have.length.at.least(3);
+    expect(res.data[0]).is.an('object');
+    expect(res.data[1]).is.an('object');
+    expect(res.data[2]).is.an('object');
+    expect(res.data[0].id).to.match(numberOnlyPattern).that.exist;
+    expect(res.data[0].version).at.least(1);
+    expect(res.data[0].creationDate).to.match(dateTimeNoZonePattern).that.exist;
+    expect(res.data[0].lastUpdated).to.match(dateTimeNoZonePattern).that.exist;
+    expect(res.data[0].firstName).eq('Jammy');
+    expect(res.data[1].firstName).eq('Annie');
+    expect(res.data[2].firstName).eq('Cinderella');
+  });
+
+});

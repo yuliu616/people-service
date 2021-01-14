@@ -24,4 +24,14 @@ public interface PeopleMapper {
             @Param("pageOffset") long pageOffset,
             @Param("pageSize") long pageSize);
 
+    /**
+     * @param namePattern pattern (in regex) to search for people,
+     *                    all name related fields will be searched.
+     */
+    List<People> findPeopleWithNameSimilarTo(
+            @Param("namePattern") String namePattern,
+            @Param("isActive") boolean isActive,
+            @Param("pageOffset") long pageOffset,
+            @Param("pageSize") long pageSize);
+
 }

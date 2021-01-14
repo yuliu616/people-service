@@ -73,6 +73,24 @@ baseUri: http://localhost:8082/api
           application/json:
             description: the newly created People
             type: People
+  /search:
+    /withNameSimilarTo:
+      get:
+        description: |
+          find all people that name match the provided pattern
+        queryParameters:
+          namePattern:
+            type: string
+            description: |
+              pattern (in regex) to search for people,
+              all name related fields will be searched.
+          offset: integer
+          size: integer
+        responses:
+          200:
+            body:
+              application/json:
+                type: People[]
   /{id}:
     get:
       description: |

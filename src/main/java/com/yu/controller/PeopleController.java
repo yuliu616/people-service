@@ -48,6 +48,16 @@ public class PeopleController {
         return this.peopleMapper.listAllPeople(true, offset, safePageSize);
     }
 
+    @GetMapping("/search/withNameSimilarTo")
+    public List<People> findPeopleWithNameSimilar(
+            @RequestParam(value = "namePattern", required = true) String namePattern,
+            @RequestParam(value = "offset", defaultValue = "0") long offset,
+            @RequestParam(value = "size", defaultValue = "10") long size
+    ){
+        long safePageSize = Math.max(Math.min(size, PAGE_SIZE_SAFE_LIMIT), PAGE_SIZE_MIN);
+        return this.peopleMapper.findPeopleWithNameSimilarTo(namePattern, true, offset, safePageSize);
+    }
+
     @Transactional
     @PostMapping("")
     public People createPeople(@RequestBody @Valid People people){
