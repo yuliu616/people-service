@@ -1,0 +1,5 @@
+DROP USER IF EXISTS 'ppl_dbuser'@'%';
+
+CREATE USER 'ppl_dbuser'@'%' IDENTIFIED BY 'pass1234';
+
+FLUSH PRIVILEGES;

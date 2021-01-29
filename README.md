@@ -14,7 +14,10 @@ A mirco-service for managing people info.
 - Java 8+
 - MySQL 5.7+
   - database table name prefix: `ppl_`.
+  - db user: `ppl_dbuser`.
   - schema files: `/db`.
+- service:
+  - auth-service@1.0.x
 
 ## Development Setup
 
