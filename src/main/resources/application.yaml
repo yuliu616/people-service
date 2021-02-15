@@ -2,7 +2,7 @@ server.port: 8082
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/hellodb?useUnicode=true&characterEncoding=UTF-8&useSSL=false&noAccessToProcedureBodies=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://hellodb:3306/hellodb?useUnicode=true&characterEncoding=UTF-8&useSSL=false&noAccessToProcedureBodies=true&allowPublicKeyRetrieval=true
     username: ppl_dbuser
     password: pass1234
     hikari:
@@ -40,3 +40,19 @@ people-service:
       - PEOPLE_ADD
       - PEOPLE_UPDATE
       - PEOPLE_DELETE
+
+
+---
+spring:
+  profiles: production
+  datasource:
+    username: ppl_dbuser
+    password: <YOUR_DB_PASSWORD>
+people-service:
+  options:
+    enable-debug-endpoint: false
+    accept-expired-auth-token: false
+auth-service:
+  jwt:
+    public-key-PEM:
+      <YOUR PUBLIC KEY>
