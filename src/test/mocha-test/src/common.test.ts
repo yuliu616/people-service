@@ -16,7 +16,7 @@ let access_token = 'eyJhbGciOiJFUzI1NksifQ.eyJpc3MiOiJjb20ueXUiLCJyb2xlIjpbIlJPT
 
 let options = {
   // echoReq: 'simple',
-  echoReq: false,
+  echoReq: true,
   echoRes: false,
   echoErrorRes: false,
 };
@@ -25,7 +25,7 @@ axios.interceptors.request.use(function(req) {
   if (options.echoReq == 'simple') {
     console.debug(Colors.FgCyan, `     ${req.method.toUpperCase()} ${req.url.replace(apiBaseUrl, '')}`);
   }
-  req.headers['authorization']=`Bearer: ${access_token}`;
+  req.headers['authorization']=`Bearer ${access_token}`;
   return req;
 });
 
