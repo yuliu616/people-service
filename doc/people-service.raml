@@ -3,6 +3,8 @@ title: people-service REST API
 version: 1.0.x
 description: |
   provide admin function for managing people info
+securitySchemes:
+  Bearer Token in this pattern: `Bearer ${access_token}`.
 types:
   LocalDate:
     description: date without time, formatted like this `2017-10-24`.
