@@ -1,7 +1,7 @@
 {
   "name": "mocha-test",
   "version": "1.0.0",
-  "description": "mocha test for RESTful api of auth-service",
+  "description": "mocha test for RESTful api of people-service",
   "scripts": {
     "test": "ts-mocha src/*.ts",
     "test-o": "ts-mocha src/*.ts -g ooo"

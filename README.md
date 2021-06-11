@@ -2,7 +2,7 @@
 
 > code name: `people-service`.
 
-A mirco-service for managing people info.
+A micro-service for managing people info.
 
 ## Framework used
 
@@ -30,9 +30,9 @@ A mirco-service for managing people info.
 
 Some key configuration parameter:
 
-- `peopleService.options.enableDebugEndpoint`: if true, expose debug-use(high risk) endpoint.
-- `peopleService.options.acceptExpiredAuthToken`: if true, auth token expiry time will be ignored.
-- `authService.jwt.publicKey_PEM`: public key (in PEM) for verifying JWT token.
+- `people-service.options.enable-debug-endpoint`: if true, expose debug-use(high risk) endpoint.
+- `people-service.options.accept-expired-auth-token`: if true, auth token expiry time will be ignored.
+- `auth-service.jwt.public-key-PEM`: public key (in PEM) for verifying JWT token.
 
 ## Debugging
 
