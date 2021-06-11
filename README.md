@@ -32,6 +32,7 @@ Some key configuration parameter:
 
 - `people-service.options.enable-debug-endpoint`: if true, expose debug-use(high risk) endpoint.
 - `people-service.options.accept-expired-auth-token`: if true, auth token expiry time will be ignored.
+- `people-service.options.disable-permission-check`: if true, all endpoints is opened to everyone.
 - `auth-service.jwt.public-key-PEM`: public key (in PEM) for verifying JWT token.
 
 ## Debugging

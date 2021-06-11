@@ -23,7 +23,8 @@ people-service:
   model-mapper-location: classpath:mapper/*-Mapper.xml
   options:
     enable-debug-endpoint: true
-    accept-expired-auth-token: true
+    accept-expired-auth-token: false
+    disable-permission-check: false
   role-permission-config:
     permission-map:
       ROOT_ADMIN:
@@ -52,6 +53,7 @@ people-service:
   options:
     enable-debug-endpoint: false
     accept-expired-auth-token: false
+    disable-permission-check: false
 auth-service:
   jwt:
     public-key-PEM:

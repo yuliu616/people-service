@@ -23,6 +23,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${people-service.options.enable-debug-endpoint}")
     protected boolean enableDebugEndpoint;
 
+    @Value("${people-service.options.disable-permission-check}")
+    protected boolean disablePermissionCheck;
+
     private static final Logger logger = LoggerFactory.getLogger(AppSecurityConfig.class);
 
     @Override
@@ -40,8 +43,12 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
         // access control for endpoints
-        http
-            .authorizeRequests()
+        if (disablePermissionCheck) {
+            logger.warn("app started with disablePermissionCheck.");
+            http.authorizeRequests().anyRequest().permitAll();
+        } else {
+            http
+                .authorizeRequests()
                 .antMatchers(apiBaseUrl+"/about")
                     .permitAll()
 
@@ -52,7 +59,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, apiBaseUrl+"/people/*")
                     .hasAnyAuthority(Permission.ANYTHING.name(), Permission.PEOPLE_GET.name())
                 .antMatchers(HttpMethod.PUT, apiBaseUrl+"/people/*")
-                   .hasAnyAuthority(Permission.ANYTHING.name(), Permission.PEOPLE_UPDATE.name())
+                    .hasAnyAuthority(Permission.ANYTHING.name(), Permission.PEOPLE_UPDATE.name())
                 .antMatchers(HttpMethod.GET, apiBaseUrl+"/people/search/*")
                     .hasAnyAuthority(Permission.ANYTHING.name(), Permission.PEOPLE_SEARCH.name())
 
@@ -60,8 +67,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticated()
 
                 .anyRequest().denyAll()
-        ;
-//        http.authorizeRequests().anyRequest().permitAll();
+            ;
+        }
 
         http.addFilterBefore(new JwtTokenBasedSecurityFilter(), UsernamePasswordAuthenticationFilter.class);
     }
