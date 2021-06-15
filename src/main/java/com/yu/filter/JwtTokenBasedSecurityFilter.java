@@ -44,7 +44,7 @@ public class JwtTokenBasedSecurityFilter implements Filter {
             String authorizationHeader = ((HttpServletRequest)request)
                     .getHeader(HEADER_AUTHORIZATION);
             if (authorizationHeader != null
-                && authorizationHeader.startsWith(HEADER_VALUE_BEARER_PREFIX))
+                    && authorizationHeader.startsWith(HEADER_VALUE_BEARER_PREFIX))
             {
                 String token = authorizationHeader.substring(HEADER_VALUE_BEARER_PREFIX.length());
 //                logger.debug("token = {}", token);
@@ -56,8 +56,9 @@ public class JwtTokenBasedSecurityFilter implements Filter {
                     logger.debug("token is invalid: {}", token);
                 } else {
 //                    logger.debug("token verified good: {}", verifiedToken.getPayload().toString());
-                    Authentication auth = buildAuthObjForSecurity(verifiedToken,
+                    UsernamePasswordAuthenticationToken auth = buildAuthObjForSecurity(verifiedToken,
                             jwtTokenController, permissionController);
+                    auth.setDetails(token);
                     SecurityContext securityContext = SecurityContextHolder.getContext();
                     securityContext.setAuthentication(auth);
                 }
@@ -83,7 +84,7 @@ public class JwtTokenBasedSecurityFilter implements Filter {
         return permissionController;
     }
 
-    private Authentication buildAuthObjForSecurity(
+    private UsernamePasswordAuthenticationToken buildAuthObjForSecurity(
             SignedJWT verifiedToken,
             JwtTokenController jwtTokenController,
             PermissionController permissionController)
@@ -94,7 +95,7 @@ public class JwtTokenBasedSecurityFilter implements Filter {
             String[] roleList = jwtTokenController.getRoleListInToken(claimsSet);
 //            logger.debug("user[{}] having roles: {}", username, roleList);
             List<Permission> permissionList = permissionController.getPermissionListForRole(roleList);
-            Authentication auth = new UsernamePasswordAuthenticationToken(
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                     username, null, //no password
                     permissionList //make the user have this permissions granted.
                             .stream()
