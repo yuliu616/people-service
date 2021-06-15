@@ -1,7 +1,7 @@
 package com.yu.modelMapper;
 
 import com.yu.model.IntegerId;
-import com.yu.model.People;
+import com.yu.model.people.People;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

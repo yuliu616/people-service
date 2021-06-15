@@ -1,4 +1,6 @@
-package com.yu.model;
+package com.yu.model.people;
+
+import com.yu.model.IHasId;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;

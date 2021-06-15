@@ -3,7 +3,7 @@ package com.yu.controller;
 import com.yu.exception.InconsistencyDataException;
 import com.yu.exception.RecordInsertionFailException;
 import com.yu.exception.RecordModificationFailException;
-import com.yu.model.People;
+import com.yu.model.people.People;
 import com.yu.modelMapper.PeopleMapper;
 import com.yu.util.MyBatisUtil;
 import org.slf4j.Logger;

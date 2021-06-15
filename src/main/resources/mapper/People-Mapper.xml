@@ -17,7 +17,7 @@
     ${alias}.weight_in_kg as weightInKg</sql>
   <select id="findPeopleById"
           parameterType="String"
-          resultType="com.yu.model.People">
+          resultType="com.yu.model.people.People">
     SELECT id,
     <include refid="peopleColumns">
       <property name="alias" value="it" />
@@ -25,7 +25,7 @@
     FROM ppl_people as it
     WHERE it.id = #{id}
   </select>
-  <select id="listAllPeople" resultType="com.yu.model.People">
+  <select id="listAllPeople" resultType="com.yu.model.people.People">
     SELECT id,
     <include refid="peopleColumns">
       <property name="alias" value="it" />
@@ -41,7 +41,7 @@
     insert ppl_people_id values ()
   </insert>
   <insert id="insertPeopleWithModel"
-          parameterType="com.yu.model.People">
+          parameterType="com.yu.model.people.People">
     insert ppl_people (id, version,
       is_active, gender, nickname, date_of_birth,
       first_name, last_name, height_in_cm, weight_in_kg)
@@ -50,7 +50,7 @@
       #{it.firstName}, #{it.lastName}, #{it.heightInCm}, #{it.weightInKg})
   </insert>
   <update id="updatePeopleWithModel"
-          parameterType="com.yu.model.People">
+          parameterType="com.yu.model.people.People">
     update ppl_people
     set version = version+1,
       last_updated = CURRENT_TIMESTAMP,
@@ -64,7 +64,7 @@
       weight_in_kg = #{it.weightInKg}
     where id = #{it.id} and version = #{it.version}
   </update>
-  <select id="findPeopleWithNameSimilarTo" resultType="com.yu.model.People">
+  <select id="findPeopleWithNameSimilarTo" resultType="com.yu.model.people.People">
     SELECT id,
     <include refid="peopleColumns">
       <property name="alias" value="it" />

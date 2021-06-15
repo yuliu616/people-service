@@ -1,6 +1,6 @@
 package com.yu.controller;
 
-import com.yu.model.Gender;
+import com.yu.model.people.Gender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
