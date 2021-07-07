@@ -60,7 +60,7 @@ java -jar target/people-service-1.0.0.jar
 ## Health checking
 
 ```
-curl 'http://127.0.0.1:8082/api/about'
+curl 'http://127.0.0.1:8082/api/1.0/about'
 ```
 
 # Docker support
