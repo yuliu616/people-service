@@ -15,7 +15,7 @@
     <file>./log/people-service.log</file>
 
     <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-      <fileNamePattern>./logs/people-service.%i.log</fileNamePattern>
+      <fileNamePattern>./log/people-service.%i.log</fileNamePattern>
       <minIndex>0</minIndex>
       <maxIndex>9</maxIndex>
     </rollingPolicy>
