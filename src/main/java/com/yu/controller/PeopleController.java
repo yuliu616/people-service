@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
+import java.util.Arrays;
 import java.util.List;
 
 @RequestMapping("${people-service.api-base-url}/people")
@@ -46,6 +48,17 @@ public class PeopleController {
     ){
         long safePageSize = Math.max(Math.min(size, PAGE_SIZE_SAFE_LIMIT), PAGE_SIZE_MIN);
         return this.peopleMapper.listAllPeople(true, offset, safePageSize);
+    }
+
+    @GetMapping("/search/withIdList")
+    public List<People> listPeopleByIdList(
+            @RequestParam("idList") String idListStr
+    ){
+        List<String> idList = Arrays.asList(idListStr.split(","));
+        if (idList.size() > PAGE_SIZE_SAFE_LIMIT) {
+            throw new ValidationException("idList too long");
+        }
+        return this.peopleMapper.findPeopleByIdList(idList);
     }
 
     @GetMapping("/search/withNameSimilarTo")

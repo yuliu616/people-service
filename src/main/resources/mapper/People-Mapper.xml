@@ -25,6 +25,21 @@
     FROM ppl_people as it
     WHERE it.id = #{id}
   </select>
+  <select id="findPeopleByIdList"
+          parameterType="String"
+          resultType="com.yu.model.people.People">
+    SELECT id,
+    <include refid="peopleColumns">
+      <property name="alias" value="it" />
+    </include>
+    FROM ppl_people as it
+    WHERE it.id in (null
+    <foreach item="item" index="index" collection="idList"
+             open="," separator=",">
+      #{item}
+    </foreach>
+    )
+  </select>
   <select id="listAllPeople" resultType="com.yu.model.people.People">
     SELECT id,
     <include refid="peopleColumns">

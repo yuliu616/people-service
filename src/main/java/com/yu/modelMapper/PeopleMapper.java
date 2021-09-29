@@ -24,6 +24,8 @@ public interface PeopleMapper {
             @Param("pageOffset") long pageOffset,
             @Param("pageSize") long pageSize);
 
+    List<People> findPeopleByIdList(@Param("idList") List<String> idList);
+
     /**
      * @param namePattern pattern (in regex) to search for people,
      *                    all name related fields will be searched.
