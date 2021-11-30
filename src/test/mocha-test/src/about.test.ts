@@ -20,6 +20,8 @@ describe('about', function(){
     expect(res.data.apiVersion).eq('1.0');
     expect(res.data.currentDate).to.match(localDatePattern).that.exist;
     expect(res.data.currentTime).to.match(dateTimeAndMsNoZonePattern).that.exist;
+    expect(res.data.instanceRandId).to.not.be.undefined;
+    expect(res.data.description).to.have.length.at.least(1);
   });
 
 });
