@@ -51,6 +51,9 @@ people-service:
     enable-debug-endpoint: true
     accept-expired-auth-token: false
     disable-permission-check: false
+    model:
+      people:
+        id-generation-strategy: ID_TABLE
   role-permission-config:
     permission-map:
       ROOT_ADMIN:

@@ -32,6 +32,9 @@ public class PeopleController {
     @Autowired
     protected PeopleMapper peopleMapper;
 
+    @Autowired
+    protected IdGenerationController idGenerationController;
+
     private static final long PAGE_SIZE_MIN = 1;
     private static final long PAGE_SIZE_SAFE_LIMIT = 1000;
 
@@ -83,8 +86,7 @@ public class PeopleController {
     @Transactional
     @PostMapping("")
     public People createPeople(@RequestBody @Valid People people){
-        People newPeople = MyBatisUtil.generateIdForModel(people,
-                o->this.peopleMapper.generatePeopleId(o));
+        People newPeople = idGenerationController.fillWithGeneratedId(people);
         newPeople.setActive(true); // record is created active by default
         long created = this.peopleMapper.insertPeopleWithModel(newPeople);
         if (created <= 0) {
