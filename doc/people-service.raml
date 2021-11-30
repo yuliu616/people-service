@@ -10,6 +10,12 @@ types:
     description: date without time, formatted like this `2017-10-24`.
   DateTime:
     description: instant of time without time zone concept.
+  CountDto:
+    examples:
+      simple:
+        {
+          "count": 2000
+        }
   People:
     type: object
     examples:
@@ -52,6 +58,8 @@ baseUri: http://localhost:8082/api/1.0
                   "apiBaseUrl": "/api/1.0",
                   "currentTime": "2020-11-30T02:43:11.856543Z",
                   "currentDate": "2020-11-30",
+                  "description": "first version.",
+                  "instanceRandId": 15507,
               }
 /people:
   get:
@@ -60,6 +68,12 @@ baseUri: http://localhost:8082/api/1.0
     queryParameters: 
       offset: integer
       size: integer
+      isActive: 
+        type: integer
+        description: |
+          "0" for false,
+          "1" for true,
+          "-1" for anything.
     responses: 
       200:
         body:
@@ -107,6 +121,22 @@ baseUri: http://localhost:8082/api/1.0
             body:
               application/json:
                 type: People[]
+  /count:
+    get:
+      description: |
+        get count of People.
+      queryParameters:
+        isActive: 
+          type: integer
+          description: |
+            "0" for false,
+            "1" for true,
+            "-1" for anything.
+      responses:
+        200:
+          body:
+            application/json:
+              type: CountDto
   /{id}:
     get:
       description: |

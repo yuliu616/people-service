@@ -271,6 +271,20 @@ describe('people', function(){
     expect(res.data[1].id).eq('33006');
   });
 
+  it('could count all records', async function(){
+    // query people with paging
+    let res = await axios.get(`${apiBaseUrl}/people/count`);
+    expect(res.data).is.an('object');
+    expect(res.data.count).at.least(10);
+  });
+
+  it('could count inactive records', async function(){
+    // query people with paging
+    let res = await axios.get(`${apiBaseUrl}/people/count?isActive=0`);
+    expect(res.data).is.an('object');
+    expect(res.data.count).at.most(0);
+  });
+
 });
 
 describe('people search', function(){

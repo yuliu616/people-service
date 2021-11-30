@@ -3,6 +3,7 @@ package com.yu.controller;
 import com.yu.exception.InconsistencyDataException;
 import com.yu.exception.RecordInsertionFailException;
 import com.yu.exception.RecordModificationFailException;
+import com.yu.model.dto.CountDto;
 import com.yu.model.people.People;
 import com.yu.modelMapper.PeopleMapper;
 import com.yu.util.MyBatisUtil;
@@ -32,7 +33,7 @@ public class PeopleController {
     protected PeopleMapper peopleMapper;
 
     private static final long PAGE_SIZE_MIN = 1;
-    private static final long PAGE_SIZE_SAFE_LIMIT = 100;
+    private static final long PAGE_SIZE_SAFE_LIMIT = 1000;
 
     private static final Logger logger = LoggerFactory.getLogger(PeopleController.class);
 
@@ -44,10 +45,18 @@ public class PeopleController {
     @GetMapping("")
     public List<People> listAllPeople(
             @RequestParam(value = "offset", defaultValue = "0") long offset,
-            @RequestParam(value = "size", defaultValue = "10") long size
+            @RequestParam(value = "size", defaultValue = "10") long size,
+            @RequestParam(value = "isActive", defaultValue = "1") int isActive
     ){
         long safePageSize = Math.max(Math.min(size, PAGE_SIZE_SAFE_LIMIT), PAGE_SIZE_MIN);
-        return this.peopleMapper.listAllPeople(true, offset, safePageSize);
+        return this.peopleMapper.listAllPeople(isActive, offset, safePageSize);
+    }
+
+    @GetMapping("/count")
+    public CountDto countAllPeople(
+            @RequestParam(value = "isActive", defaultValue = "1") int isActive
+    ){
+        return new CountDto(this.peopleMapper.countAllPeople(isActive));
     }
 
     @GetMapping("/search/withIdList")

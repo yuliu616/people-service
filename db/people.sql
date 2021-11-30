@@ -21,3 +21,6 @@ ADD INDEX `ix_ppl_people_nickname` (`nickname` ASC);
 
 ALTER TABLE `ppl_people`
 ADD INDEX `ix_ppl_people_date_of_birth` (`date_of_birth` ASC);
+
+ALTER TABLE `ppl_people`
+ADD INDEX `ix_ppl_people_is_active` (`is_active` ASC);

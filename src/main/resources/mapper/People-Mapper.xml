@@ -39,6 +39,7 @@
       #{item}
     </foreach>
     )
+    ORDER BY it.id
   </select>
   <select id="listAllPeople" resultType="com.yu.model.people.People">
     SELECT id,
@@ -46,8 +47,14 @@
       <property name="alias" value="it" />
     </include>
     FROM ppl_people as it
-    WHERE it.is_active = #{isActive}
+    WHERE (#{isActive} = -1 or it.is_active = #{isActive})
+    ORDER BY it.id
     LIMIT #{pageOffset},#{pageSize}
+  </select>
+  <select id="countAllPeople" resultType="long">
+    SELECT count(*)
+    FROM ppl_people as it
+    WHERE (#{isActive} = -1 or it.is_active = #{isActive})
   </select>
   <insert id="generatePeopleId"
           useGeneratedKeys="true"
@@ -90,6 +97,7 @@
         or it.first_name regexp #{namePattern}
         or it.last_name regexp #{namePattern}
       )
+    ORDER BY it.id
     LIMIT #{pageOffset},#{pageSize}
   </select>
 </mapper>

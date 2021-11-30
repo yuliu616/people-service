@@ -19,10 +19,23 @@ public interface PeopleMapper {
 
     long updatePeopleWithModel(@Param("it") People People);
 
+    /**
+     * @param isActive "0" for false,
+     *                 "1" for true,
+     *                 "-1" for anything.
+     */
     List<People> listAllPeople(
-            @Param("isActive") boolean isActive,
+            @Param("isActive") int isActive,
             @Param("pageOffset") long pageOffset,
             @Param("pageSize") long pageSize);
+
+    /**
+     * @param isActive "0" for false,
+     *                 "1" for true,
+     *                 "-1" for anything.
+     */
+    long countAllPeople(
+            @Param("isActive") int isActive);
 
     List<People> findPeopleByIdList(@Param("idList") List<String> idList);
 
