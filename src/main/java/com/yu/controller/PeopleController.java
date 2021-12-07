@@ -10,6 +10,7 @@ import com.yu.util.MyBatisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class PeopleController {
 
     private static final long PAGE_SIZE_MIN = 1;
     private static final long PAGE_SIZE_SAFE_LIMIT = 1000;
+    private static final long PAGE_OFFSET_SAFE_LIMIT = 1000;
 
     private static final Logger logger = LoggerFactory.getLogger(PeopleController.class);
 
@@ -49,17 +52,46 @@ public class PeopleController {
     public List<People> listAllPeople(
             @RequestParam(value = "offset", defaultValue = "0") long offset,
             @RequestParam(value = "size", defaultValue = "10") long size,
+            @RequestParam(value = "idMin", required = false) String idMin,
+            @RequestParam(value = "idMax", required = false) String idMax,
+            @RequestParam(value = "creationDateMin", required = false)
+            Instant creationDateMin,
+            @RequestParam(value = "creationDateMax", required = false)
+            Instant creationDateMax,
+            @RequestParam(value = "lastUpdatedMin", required = false)
+            Instant lastUpdatedMin,
+            @RequestParam(value = "lastUpdatedMax", required = false)
+            Instant lastUpdatedMax,
             @RequestParam(value = "isActive", defaultValue = "1") int isActive
     ){
         long safePageSize = Math.max(Math.min(size, PAGE_SIZE_SAFE_LIMIT), PAGE_SIZE_MIN);
-        return this.peopleMapper.listAllPeople(isActive, offset, safePageSize);
+        if (offset > PAGE_OFFSET_SAFE_LIMIT) {
+            throw new ValidationException("offset too large");
+        }
+        return this.peopleMapper.listAllPeople(isActive, idMin, idMax,
+                creationDateMin, creationDateMax,
+                lastUpdatedMin, lastUpdatedMax,
+                offset, safePageSize);
     }
 
     @GetMapping("/count")
     public CountDto countAllPeople(
+            @RequestParam(value = "idMin", required = false) String idMin,
+            @RequestParam(value = "idMax", required = false) String idMax,
+            @RequestParam(value = "creationDateMin", required = false)
+            Instant creationDateMin,
+            @RequestParam(value = "creationDateMax", required = false)
+            Instant creationDateMax,
+            @RequestParam(value = "lastUpdatedMin", required = false)
+            Instant lastUpdatedMin,
+            @RequestParam(value = "lastUpdatedMax", required = false)
+            Instant lastUpdatedMax,
             @RequestParam(value = "isActive", defaultValue = "1") int isActive
     ){
-        return new CountDto(this.peopleMapper.countAllPeople(isActive));
+        return new CountDto(this.peopleMapper.countAllPeople(
+                isActive, idMin, idMax,
+                creationDateMin, creationDateMax,
+                lastUpdatedMin, lastUpdatedMax));
     }
 
     @GetMapping("/search/withIdList")
@@ -77,10 +109,28 @@ public class PeopleController {
     public List<People> findPeopleWithNameSimilar(
             @RequestParam(value = "namePattern", required = true) String namePattern,
             @RequestParam(value = "offset", defaultValue = "0") long offset,
-            @RequestParam(value = "size", defaultValue = "10") long size
+            @RequestParam(value = "size", defaultValue = "10") long size,
+            @RequestParam(value = "idMin", required = false) String idMin,
+            @RequestParam(value = "idMax", required = false) String idMax,
+            @RequestParam(value = "creationDateMin", required = false)
+            Instant creationDateMin,
+            @RequestParam(value = "creationDateMax", required = false)
+            Instant creationDateMax,
+            @RequestParam(value = "lastUpdatedMin", required = false)
+            Instant lastUpdatedMin,
+            @RequestParam(value = "lastUpdatedMax", required = false)
+            Instant lastUpdatedMax
     ){
         long safePageSize = Math.max(Math.min(size, PAGE_SIZE_SAFE_LIMIT), PAGE_SIZE_MIN);
-        return this.peopleMapper.findPeopleWithNameSimilarTo(namePattern, true, offset, safePageSize);
+        if (offset > PAGE_OFFSET_SAFE_LIMIT) {
+            throw new ValidationException("offset too large");
+        }
+        return this.peopleMapper.findPeopleWithNameSimilarTo(
+                namePattern, true,
+                idMin, idMax,
+                creationDateMin, creationDateMax,
+                lastUpdatedMin, lastUpdatedMax,
+                offset, safePageSize);
     }
 
     @Transactional

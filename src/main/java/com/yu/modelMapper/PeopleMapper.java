@@ -4,6 +4,7 @@ import com.yu.model.IntegerId;
 import com.yu.model.people.People;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -26,6 +27,12 @@ public interface PeopleMapper {
      */
     List<People> listAllPeople(
             @Param("isActive") int isActive,
+            @Param("idMin") String idMin,
+            @Param("idMax") String idMax,
+            @Param("creationDateMin") Instant creationDateMin,
+            @Param("creationDateMax") Instant creationDateMax,
+            @Param("lastUpdatedMin") Instant lastUpdatedMin,
+            @Param("lastUpdatedMax") Instant lastUpdatedMax,
             @Param("pageOffset") long pageOffset,
             @Param("pageSize") long pageSize);
 
@@ -35,7 +42,14 @@ public interface PeopleMapper {
      *                 "-1" for anything.
      */
     long countAllPeople(
-            @Param("isActive") int isActive);
+            @Param("isActive") int isActive,
+            @Param("idMin") String idMin,
+            @Param("idMax") String idMax,
+            @Param("creationDateMin") Instant creationDateMin,
+            @Param("creationDateMax") Instant creationDateMax,
+            @Param("lastUpdatedMin") Instant lastUpdatedMin,
+            @Param("lastUpdatedMax") Instant lastUpdatedMax
+    );
 
     List<People> findPeopleByIdList(@Param("idList") List<String> idList);
 
@@ -46,6 +60,12 @@ public interface PeopleMapper {
     List<People> findPeopleWithNameSimilarTo(
             @Param("namePattern") String namePattern,
             @Param("isActive") boolean isActive,
+            @Param("idMin") String idMin,
+            @Param("idMax") String idMax,
+            @Param("creationDateMin") Instant creationDateMin,
+            @Param("creationDateMax") Instant creationDateMax,
+            @Param("lastUpdatedMin") Instant lastUpdatedMin,
+            @Param("lastUpdatedMax") Instant lastUpdatedMax,
             @Param("pageOffset") long pageOffset,
             @Param("pageSize") long pageSize);
 

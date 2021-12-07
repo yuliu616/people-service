@@ -74,6 +74,24 @@ baseUri: http://localhost:8082/api/1.0
           "0" for false,
           "1" for true,
           "-1" for anything.
+      idMin:
+        type: integer
+        description: filter condition, lower bound of field `id` (inclusive).
+      idMax:
+        type: integer
+        description: filter condition, upper bound of field `id` (exclusive).
+      creationDateMin:
+        type: DateTime
+        description: filter condition, lower bound of field `creationDate` (inclusive).
+      creationDateMax:
+        type: DateTime
+        description: filter condition, upper bound of field `creationDate` (exclusive).
+      lastUpdatedMin:
+        type: DateTime
+        description: filter condition, lower bound of field `lastUpdated` (inclusive).
+      lastUpdatedMax:
+        type: DateTime
+        description: filter condition, upper bound of field `lastUpdated` (exclusive).
     responses: 
       200:
         body:
@@ -116,6 +134,24 @@ baseUri: http://localhost:8082/api/1.0
               all name related fields will be searched.
           offset: integer
           size: integer
+          idMin:
+            type: integer
+            description: filter condition, lower bound of field `id` (inclusive).
+          idMax:
+            type: integer
+            description: filter condition, upper bound of field `id` (exclusive).
+          creationDateMin:
+            type: DateTime
+            description: filter condition, lower bound of field `creationDate` (inclusive).
+          creationDateMax:
+            type: DateTime
+            description: filter condition, upper bound of field `creationDate` (exclusive).
+          lastUpdatedMin:
+            type: DateTime
+            description: filter condition, lower bound of field `lastUpdated` (inclusive).
+          lastUpdatedMax:
+            type: DateTime
+            description: filter condition, upper bound of field `lastUpdated` (exclusive).
         responses:
           200:
             body:
@@ -132,6 +168,24 @@ baseUri: http://localhost:8082/api/1.0
             "0" for false,
             "1" for true,
             "-1" for anything.
+        idMin:
+          type: integer
+          description: filter condition, lower bound of field `id` (inclusive).
+        idMax:
+          type: integer
+          description: filter condition, upper bound of field `id` (exclusive).
+        creationDateMin:
+          type: DateTime
+          description: filter condition, lower bound of field `creationDate` (inclusive).
+        creationDateMax:
+          type: DateTime
+          description: filter condition, upper bound of field `creationDate` (exclusive).
+        lastUpdatedMin:
+          type: DateTime
+          description: filter condition, lower bound of field `lastUpdated` (inclusive).
+        lastUpdatedMax:
+          type: DateTime
+          description: filter condition, upper bound of field `lastUpdated` (exclusive).
       responses:
         200:
           body:

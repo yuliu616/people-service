@@ -244,7 +244,11 @@ describe('people', function(){
 
   it('could list record as specific page size 2', async function(){
     // query people with paging
-    let res = await axios.get(`${apiBaseUrl}/people?size=2`);
+    let res = await axios.get(`${apiBaseUrl}/people`, {
+      params: {
+        size: 2
+      },
+    });
     expect(res.data).is.an('array');
     expect(res.data).to.have.length(2);
     expect(res.data[0]).is.an('object');
@@ -253,7 +257,11 @@ describe('people', function(){
 
   it('could list record as specific page size', async function(){
     // query people with paging
-    let res = await axios.get(`${apiBaseUrl}/people?size=5`);
+    let res = await axios.get(`${apiBaseUrl}/people`, {
+      params: {
+        size: 5
+      }
+    });
     expect(res.data).is.an('array');
     expect(res.data).to.have.length(5);
     expect(res.data[0]).is.an('object');
@@ -262,20 +270,121 @@ describe('people', function(){
 
   it('could list record as specific page offset', async function(){
     // query people with paging
-    let res = await axios.get(`${apiBaseUrl}/people?offset=4&size=2`);
+    let res = await axios.get(`${apiBaseUrl}/people`, {
+      params: {
+        offset: 4,
+        size: 2,
+        creationDateMax: '2020-12-31T00:00:00Z',
+      }
+    });
     expect(res.data).is.an('array');
     expect(res.data).to.have.length(2);
     expect(res.data[0]).is.an('object');
     expect(res.data[1]).is.an('object');
-    expect(res.data[0].id).eq('33005');
-    expect(res.data[1].id).eq('33006');
+    expect(res.data[0].id).eq('33026');
+    expect(res.data[1].id).eq('33025');
+  });
+
+  it('could list with creation date range', async function(){
+    // query people with paging
+    let res = await axios.get(`${apiBaseUrl}/people`, {
+      params: {
+        size: 100,
+        idMin: '33001',
+        idMax: '33031',
+        creationDateMin: '2020-12-20T00:00:00Z',
+        creationDateMax: '2020-12-25T22:30:00Z',
+      },
+    });
+    expect(res.data).is.an('array');
+    expect(res.data).to.have.length(11);
+    expect(res.data[0]).is.an('object');
+    expect(res.data[1]).is.an('object');
+    expect(res.data[0].id).equals('33030');
+    expect(res.data[1].id).equals('33029');
+  });
+
+  it('could list with last update date range', async function(){
+    // query people with paging
+    let res = await axios.get(`${apiBaseUrl}/people`, {
+      params: {
+        size: 100,
+        idMin: '33001',
+        idMax: '33031',
+        lastUpdatedMin: '2020-12-25T16:00:00Z',
+        lastUpdatedMax: '2020-12-26T21:50:59Z',
+      },
+    });
+    expect(res.data).is.an('array');
+    expect(res.data).to.have.length(15);
+    expect(res.data[0]).is.an('object');
+    expect(res.data[1]).is.an('object');
+    expect(res.data[0].id).equals('33030');
+    expect(res.data[1].id).equals('33025');
+  });
+
+  it('could list with id range', async function(){
+    // query people with paging
+    let res = await axios.get(`${apiBaseUrl}/people`, {
+      params: {
+        size: 100,
+        idMin: '33001',
+        idMax: '33010',
+      },
+    });
+    expect(res.data).is.an('array');
+    expect(res.data).to.have.length(9);
+    expect(res.data[0]).is.an('object');
+    expect(res.data[1]).is.an('object');
+    expect(res.data[0].id).equals('33009');
+    expect(res.data[1].id).equals('33008');
   });
 
   it('could count all records', async function(){
-    // query people with paging
+    // count records
     let res = await axios.get(`${apiBaseUrl}/people/count`);
     expect(res.data).is.an('object');
     expect(res.data.count).at.least(10);
+  });
+
+  it('could count records with creation date range', async function(){
+    // count records
+    let res = await axios.get(`${apiBaseUrl}/people/count`, {
+      params: {
+        idMin: '33001',
+        idMax: '33031',
+        creationDateMin: '2020-12-20T00:00:00Z',
+        creationDateMax: '2020-12-25T22:30:00Z',
+      },
+    });
+    expect(res.data).is.an('object');
+    expect(res.data.count).equals(11);
+  });
+
+  it('could count records with last update date range', async function(){
+    // count records
+    let res = await axios.get(`${apiBaseUrl}/people/count`, {
+      params: {
+        idMin: '33001',
+        idMax: '33031',
+        lastUpdatedMin: '2020-12-25T16:00:00Z',
+        lastUpdatedMax: '2020-12-26T21:50:59Z',
+      },
+    });
+    expect(res.data).is.an('object');
+    expect(res.data.count).equals(15);
+  });
+
+  it('could count records with id range', async function(){
+    // count records
+    let res = await axios.get(`${apiBaseUrl}/people/count`, {
+      params: {
+        idMin: '33001',
+        idMax: '33010',
+      },
+    });
+    expect(res.data).is.an('object');
+    expect(res.data.count).equals(9);
   });
 
   it('could count inactive records', async function(){
@@ -339,6 +448,7 @@ describe('people search', function(){
     // search people
     let res = await axios.get(`${apiBaseUrl}/people/search/withNameSimilarTo`, {
       params: {
+        creationDateMax: '2020-12-31T00:00:00Z',
         namePattern: '(mm|nn|ll)',
         size: 3,
       },
@@ -352,9 +462,9 @@ describe('people search', function(){
     expect(res.data[0].version).at.least(1);
     expect(res.data[0].creationDate).to.match(dateTimeNoZonePattern).that.exist;
     expect(res.data[0].lastUpdated).to.match(dateTimeNoZonePattern).that.exist;
-    expect(res.data[0].firstName).eq('Jammy');
+    expect(res.data[0].firstName).eq('Cinderella');
     expect(res.data[1].firstName).eq('Annie');
-    expect(res.data[2].firstName).eq('Cinderella');
+    expect(res.data[2].firstName).eq('Jammy');
   });
 
 });

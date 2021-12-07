@@ -39,7 +39,7 @@
       #{item}
     </foreach>
     )
-    ORDER BY it.id
+    ORDER BY it.id desc
   </select>
   <select id="listAllPeople" resultType="com.yu.model.people.People">
     SELECT id,
@@ -48,13 +48,25 @@
     </include>
     FROM ppl_people as it
     WHERE (#{isActive} = -1 or it.is_active = #{isActive})
-    ORDER BY it.id
+      AND (#{idMin} is null or it.id >= #{idMin})
+      AND (#{idMax} is null or it.id &lt; #{idMax})
+      AND (#{creationDateMin} is null or it.creation_date >= #{creationDateMin})
+      AND (#{creationDateMax} is null or it.creation_date &lt; #{creationDateMax})
+      AND (#{lastUpdatedMin} is null or it.last_updated >= #{lastUpdatedMin})
+      AND (#{lastUpdatedMax} is null or it.last_updated &lt; #{lastUpdatedMax})
+    ORDER BY it.id desc
     LIMIT #{pageOffset},#{pageSize}
   </select>
   <select id="countAllPeople" resultType="long">
     SELECT count(*)
     FROM ppl_people as it
     WHERE (#{isActive} = -1 or it.is_active = #{isActive})
+      AND (#{idMin} is null or it.id >= #{idMin})
+      AND (#{idMax} is null or it.id &lt; #{idMax})
+      AND (#{creationDateMin} is null or it.creation_date >= #{creationDateMin})
+      AND (#{creationDateMax} is null or it.creation_date &lt; #{creationDateMax})
+      AND (#{lastUpdatedMin} is null or it.last_updated >= #{lastUpdatedMin})
+      AND (#{lastUpdatedMax} is null or it.last_updated &lt; #{lastUpdatedMax})
   </select>
   <insert id="generatePeopleId"
           useGeneratedKeys="true"
@@ -93,11 +105,17 @@
     </include>
     FROM ppl_people as it
     WHERE it.is_active = #{isActive}
+      AND (#{idMin} is null or it.id >= #{idMin})
+      AND (#{idMax} is null or it.id &lt; #{idMax})
+      AND (#{creationDateMin} is null or it.creation_date >= #{creationDateMin})
+      AND (#{creationDateMax} is null or it.creation_date &lt; #{creationDateMax})
+      AND (#{lastUpdatedMin} is null or it.last_updated >= #{lastUpdatedMin})
+      AND (#{lastUpdatedMax} is null or it.last_updated &lt; #{lastUpdatedMax})
       and (it.nickname regexp #{namePattern}
         or it.first_name regexp #{namePattern}
         or it.last_name regexp #{namePattern}
       )
-    ORDER BY it.id
+    ORDER BY it.id desc
     LIMIT #{pageOffset},#{pageSize}
   </select>
 </mapper>

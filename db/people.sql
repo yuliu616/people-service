@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS `ppl_people`;
 
 CREATE TABLE `ppl_people` (
-  `id` varchar(32) NOT NULL,
+  `id` varchar(36) NOT NULL,
   `version` bigint(20) NOT NULL DEFAULT 1,
   `creation_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `last_updated` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -17,10 +17,13 @@ CREATE TABLE `ppl_people` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `ppl_people`
+ADD INDEX `ix_ppl_people_creation_date` (`creation_date` DESC);
+
+ALTER TABLE `ppl_people`
+ADD INDEX `ix_ppl_people_last_updated` (`last_updated` DESC);
+
+ALTER TABLE `ppl_people`
 ADD INDEX `ix_ppl_people_nickname` (`nickname` ASC);
 
 ALTER TABLE `ppl_people`
 ADD INDEX `ix_ppl_people_date_of_birth` (`date_of_birth` ASC);
-
-ALTER TABLE `ppl_people`
-ADD INDEX `ix_ppl_people_is_active` (`is_active` ASC);
