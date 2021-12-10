@@ -12,4 +12,36 @@ public enum IdGenerationStrategy {
      */
     ID_TABLE,
 
+    /**
+     * use(generate) UUID as the id
+     */
+    UUID,
+
+    /**
+     * just generate a random number
+     */
+    RANDOM,
+
+    /**
+     * generate a random number, adding a predefined prefix
+     */
+    RANDOM_WITH_PREFIX,
+
+    /**
+     * generate a random number, adding a predefined suffix
+     */
+    RANDOM_WITH_SUFFIX,
+
+    /**
+     * keep a thread-safe counter in app server, use it as id
+     * with predefined prefix added.
+     */
+    APP_SERVER_COUNTER_WITH_PREFIX,
+
+    /**
+     * keep a thread-safe counter in app server, use it as id
+     * with predefined suffix added.
+     */
+    APP_SERVER_COUNTER_WITH_SUFFIX,
+
 }

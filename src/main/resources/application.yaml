@@ -95,3 +95,32 @@ spring:
 eureka:
   client:
     enabled: true
+---
+spring:
+  profiles: people_id_gen_by_uuid
+people-service:
+  options:
+    model:
+      people:
+        id-generation-strategy: UUID
+---
+spring:
+  profiles: people_id_gen_by_rand
+people-service:
+  options:
+    model:
+      people:
+        id-generation-strategy: RANDOM_WITH_PREFIX
+        id-prefix: "P92500-"
+        id-suffix: ""
+---
+spring:
+  profiles: people_id_gen_by_counter
+people-service:
+  options:
+    model:
+      people:
+        id-generation-strategy: APP_SERVER_COUNTER_WITH_PREFIX
+        id-prefix: "P92500-"
+        id-suffix: ""
+        id-base: 12003400
