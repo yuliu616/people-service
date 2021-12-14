@@ -47,26 +47,62 @@
       <property name="alias" value="it" />
     </include>
     FROM ppl_people as it
-    WHERE (#{isActive} = -1 or it.is_active = #{isActive})
-      AND (#{idMin} is null or it.id >= #{idMin})
-      AND (#{idMax} is null or it.id &lt; #{idMax})
-      AND (#{creationDateMin} is null or it.creation_date >= #{creationDateMin})
-      AND (#{creationDateMax} is null or it.creation_date &lt; #{creationDateMax})
-      AND (#{lastUpdatedMin} is null or it.last_updated >= #{lastUpdatedMin})
-      AND (#{lastUpdatedMax} is null or it.last_updated &lt; #{lastUpdatedMax})
+    WHERE 1>0
+      <if test="isActive == 1">
+        AND it.is_active = 1
+      </if>
+      <if test="isActive == 0">
+        AND it.is_active = 0
+      </if>
+      <if test="idMin">
+        AND it.id >= #{idMin}
+      </if>
+      <if test="idMax">
+        AND it.id &lt; #{idMax}
+      </if>
+      <if test="creationDateMin">
+        AND it.creation_date >= #{creationDateMin}
+      </if>
+      <if test="creationDateMax">
+        AND it.creation_date &lt; #{creationDateMax}
+      </if>
+      <if test="lastUpdatedMin">
+        AND it.last_updated >= #{lastUpdatedMin}
+      </if>
+      <if test="lastUpdatedMax">
+        AND it.last_updated &lt; #{lastUpdatedMax}
+      </if>
     ORDER BY it.id desc
-    LIMIT #{pageOffset},#{pageSize}
+    LIMIT ${pageOffset},${pageSize}
   </select>
   <select id="countAllPeople" resultType="long">
     SELECT count(*)
     FROM ppl_people as it
-    WHERE (#{isActive} = -1 or it.is_active = #{isActive})
-      AND (#{idMin} is null or it.id >= #{idMin})
-      AND (#{idMax} is null or it.id &lt; #{idMax})
-      AND (#{creationDateMin} is null or it.creation_date >= #{creationDateMin})
-      AND (#{creationDateMax} is null or it.creation_date &lt; #{creationDateMax})
-      AND (#{lastUpdatedMin} is null or it.last_updated >= #{lastUpdatedMin})
-      AND (#{lastUpdatedMax} is null or it.last_updated &lt; #{lastUpdatedMax})
+    WHERE 1>0
+      <if test="isActive == 1">
+        AND it.is_active = 1
+      </if>
+      <if test="isActive == 0">
+        AND it.is_active = 0
+      </if>
+      <if test="idMin">
+        AND it.id >= #{idMin}
+      </if>
+      <if test="idMax">
+        AND it.id &lt; #{idMax}
+      </if>
+      <if test="creationDateMin">
+        AND it.creation_date >= #{creationDateMin}
+      </if>
+      <if test="creationDateMax">
+        AND it.creation_date &lt; #{creationDateMax}
+      </if>
+      <if test="lastUpdatedMin">
+        AND it.last_updated >= #{lastUpdatedMin}
+      </if>
+      <if test="lastUpdatedMax">
+        AND it.last_updated &lt; #{lastUpdatedMax}
+      </if>
   </select>
   <insert id="generatePeopleId"
           useGeneratedKeys="true"
@@ -80,7 +116,9 @@
       is_active, gender, nickname, date_of_birth,
       first_name, last_name, height_in_cm, weight_in_kg)
     values (#{it.id}, 1,
-      #{it.isActive}, #{it.gender}, #{it.nickname}, #{it.dateOfBirth},
+      <if test="it.isActive">1</if>
+      <if test="!it.isActive">0</if>,
+      #{it.gender}, #{it.nickname}, #{it.dateOfBirth},
       #{it.firstName}, #{it.lastName}, #{it.heightInCm}, #{it.weightInKg})
   </insert>
   <update id="updatePeopleWithModel"
@@ -88,7 +126,9 @@
     update ppl_people
     set version = version+1,
       last_updated = CURRENT_TIMESTAMP,
-      is_active = #{it.isActive},
+      is_active =
+        <if test="it.isActive">1</if>
+        <if test="!it.isActive">0</if>,
       gender = #{it.gender},
       nickname = #{it.nickname},
       date_of_birth = #{it.dateOfBirth},
@@ -96,7 +136,7 @@
       last_name = #{it.lastName},
       height_in_cm = #{it.heightInCm},
       weight_in_kg = #{it.weightInKg}
-    where id = #{it.id} and version = #{it.version}
+    where id = #{it.id} and version = ${it.version}
   </update>
   <select id="findPeopleWithNameSimilarTo" resultType="com.yu.model.people.People">
     SELECT id,
@@ -104,18 +144,36 @@
       <property name="alias" value="it" />
     </include>
     FROM ppl_people as it
-    WHERE it.is_active = #{isActive}
-      AND (#{idMin} is null or it.id >= #{idMin})
-      AND (#{idMax} is null or it.id &lt; #{idMax})
-      AND (#{creationDateMin} is null or it.creation_date >= #{creationDateMin})
-      AND (#{creationDateMax} is null or it.creation_date &lt; #{creationDateMax})
-      AND (#{lastUpdatedMin} is null or it.last_updated >= #{lastUpdatedMin})
-      AND (#{lastUpdatedMax} is null or it.last_updated &lt; #{lastUpdatedMax})
+    WHERE 1>0
+      <if test="isActive">
+        AND it.is_active = 1
+      </if>
+      <if test="!isActive">
+        AND it.is_active = 0
+      </if>
+      <if test="idMin">
+        AND it.id >= #{idMin}
+      </if>
+      <if test="idMax">
+        AND it.id &lt; #{idMax}
+      </if>
+      <if test="creationDateMin">
+        AND it.creation_date >= #{creationDateMin}
+      </if>
+      <if test="creationDateMax">
+        AND it.creation_date &lt; #{creationDateMax}
+      </if>
+      <if test="lastUpdatedMin">
+        AND it.last_updated >= #{lastUpdatedMin}
+      </if>
+      <if test="lastUpdatedMax">
+        AND it.last_updated &lt; #{lastUpdatedMax}
+      </if>
       and (it.nickname regexp #{namePattern}
         or it.first_name regexp #{namePattern}
         or it.last_name regexp #{namePattern}
       )
     ORDER BY it.id desc
-    LIMIT #{pageOffset},#{pageSize}
+    LIMIT ${pageOffset},${pageSize}
   </select>
 </mapper>
