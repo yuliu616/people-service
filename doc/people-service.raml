@@ -111,12 +111,14 @@ baseUri: http://localhost:8082/api/1.0
             type: People
   /search:
     /withIdList:
-      get: |
-        find all people with provided id (any of it).
-      queryParameters:
-        type: string
+      get:
         description: |
-          list of people Id separated by comma (,).
+          find all people with provided id (any of it).
+        queryParameters:
+          idList:
+            type: string
+            description: |
+              list of people Id separated by comma (,).
       responses:
         200:
           body:
