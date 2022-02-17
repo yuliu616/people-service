@@ -124,3 +124,33 @@ people-service:
         id-prefix: "P92500-"
         id-suffix: ""
         id-base: 12003400
+---
+spring:
+  profiles: people_id_gen_by_counter_with_rand_prefix
+people-service:
+  options:
+    model:
+      people:
+        id-generation-strategy: APP_SERVER_COUNTER_WITH_RANDOM_PREFIX
+        id-prefix: "C1."
+        id-suffix: "/"
+        id-base: 12003400
+---
+spring:
+  profiles: people_id_gen_by_timed_random
+people-service:
+  options:
+    model:
+      people:
+        id-generation-strategy: TIME_BASED_SEQ_WITH_RANDOM_SUFFIX
+        id-prefix: "R-"
+        length-of-rand: 6
+---
+spring:
+  profiles: people_id_gen_by_id_table_crossing_counter
+people-service:
+  options:
+    model:
+      people:
+        id-generation-strategy: ID_TABLE_CROSSING_COUNTER
+        factor-for-crossing: 1000000
