@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class IdGenerationController {
@@ -24,7 +23,6 @@ public class IdGenerationController {
 
     private static final Logger logger = LoggerFactory.getLogger(IdGenerationController.class);
 
-    @Transactional
     public People fillWithGeneratedId(People model){
         if (peopleIdGenerationStrategy == IdGenerationStrategy.ID_TABLE) {
             return this.fillWithGeneratedIdWithIdTable(model);
