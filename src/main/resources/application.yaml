@@ -53,7 +53,8 @@ people-service:
     disable-permission-check: false
     model:
       people:
-        id-generation-strategy: ID_TABLE
+        id-generation-strategy: ID_TABLE_CROSSING_COUNTER
+        factor-for-crossing: 1000000
   role-permission-config:
     permission-map:
       ROOT_ADMIN:
@@ -95,6 +96,14 @@ spring:
 eureka:
   client:
     enabled: true
+---
+spring:
+  profiles: people_id_gen_by_auto_num
+people-service:
+  options:
+    model:
+      people:
+        id-generation-strategy: ID_TABLE
 ---
 spring:
   profiles: people_id_gen_by_uuid

@@ -91,7 +91,7 @@ describe('people', function(){
 
   it('could find target record by id', async function(){
     // query target people
-    let res = await axios.get(`${apiBaseUrl}/people/33001`);
+    let res = await axios.get(`${apiBaseUrl}/people/33029000001`);
     expect(res.data).is.an('object');
     expect(res.data.id).to.match(numberOnlyPattern).that.exist;
     expect(res.data.version).at.least(1);
@@ -108,7 +108,7 @@ describe('people', function(){
 
   it('reject when find target by invalid id', async function(){
     // query target people
-    let resError = await axios.get(`${apiBaseUrl}/people/33001-not-exists`).then(res=>{
+    let resError = await axios.get(`${apiBaseUrl}/people/33029000001-not-exists`).then(res=>{
       return 'endpoint reject expected';
     }).catch(err=>{
       expect(err.response.status).eq(400);
@@ -120,7 +120,7 @@ describe('people', function(){
 
   it('could modify target record by id', async function(){
     // query target people
-    let res = await axios.get(`${apiBaseUrl}/people/33002`);
+    let res = await axios.get(`${apiBaseUrl}/people/33029000002`);
     expect(res.data).is.an('object');
     expect(res.data.id).to.match(numberOnlyPattern).that.exist;
     expect(res.data.version).at.least(1);
@@ -129,7 +129,7 @@ describe('people', function(){
 
     // modify people
     let data: any = {
-      id: '33002',
+      id: '33029000002',
       version: 1,
       nickname: 'joo',
       firstName: 'Joe',
@@ -139,7 +139,7 @@ describe('people', function(){
       heightInCm: 201.1,
       weightInKg: 80.5,
     };
-    res = await axios.put(`${apiBaseUrl}/people/33002`, data);
+    res = await axios.put(`${apiBaseUrl}/people/33029000002`, data);
     expect(res.data.version).eq(2);
     expect(res.data.creationDate).to.match(dateTimeNoZonePattern).that.exist;
     expect(res.data.lastUpdated).to.match(dateTimeNoZonePattern).that.exist;
@@ -152,7 +152,7 @@ describe('people', function(){
     expect(res.data.weightInKg).eq(80.5);
 
     // query target people
-    res = await axios.get(`${apiBaseUrl}/people/33002`);
+    res = await axios.get(`${apiBaseUrl}/people/33029000002`);
     expect(res.data.version).eq(2);
     expect(res.data.creationDate).to.match(dateTimeNoZonePattern).that.exist;
     expect(res.data.lastUpdated).to.match(dateTimeNoZonePattern).that.exist;
@@ -166,7 +166,7 @@ describe('people', function(){
 
     // modify people
     data = {
-      id: '33002',
+      id: '33029000002',
       version: 2,
       nickname: 'Jammy',
       firstName: 'Jammy',
@@ -176,11 +176,11 @@ describe('people', function(){
       heightInCm: 176,
       weightInKg: 71.2,
     };
-    res = await axios.put(`${apiBaseUrl}/people/33002`, data);
+    res = await axios.put(`${apiBaseUrl}/people/33029000002`, data);
     expect(res.data.version).eq(3);
 
     // query target people
-    res = await axios.get(`${apiBaseUrl}/people/33002`);
+    res = await axios.get(`${apiBaseUrl}/people/33029000002`);
     expect(res.data.version).eq(3);
     expect(res.data.creationDate).to.match(dateTimeNoZonePattern).that.exist;
     expect(res.data.lastUpdated).to.match(dateTimeNoZonePattern).that.exist;
@@ -195,7 +195,7 @@ describe('people', function(){
 
   it('reject modify record with inconsistent id', async function(){
     // query target people
-    let res = await axios.get(`${apiBaseUrl}/people/33003`);
+    let res = await axios.get(`${apiBaseUrl}/people/33029000003`);
     expect(res.data).is.an('object');
     expect(res.data.id).to.match(numberOnlyPattern).that.exist;
     expect(res.data.version).at.least(1);
@@ -204,7 +204,7 @@ describe('people', function(){
 
     // modify people
     let data: any = {
-      id: '33009',
+      id: '33029000009',
       version: 1,
       nickname: 'joo',
       firstName: 'Joe',
@@ -214,7 +214,7 @@ describe('people', function(){
       heightInCm: 201.1,
       weightInKg: 80.5,
     };
-    let resError = await axios.put(`${apiBaseUrl}/people/33003`, data).then(res=>{
+    let resError = await axios.put(`${apiBaseUrl}/people/33029000003`, data).then(res=>{
       return 'endpoint reject expected';
     }).catch(err=>{
       expect(err.response.status).eq(400);
@@ -281,8 +281,8 @@ describe('people', function(){
     expect(res.data).to.have.length(2);
     expect(res.data[0]).is.an('object');
     expect(res.data[1]).is.an('object');
-    expect(res.data[0].id).eq('33026');
-    expect(res.data[1].id).eq('33025');
+    expect(res.data[0].id).eq('33029000026');
+    expect(res.data[1].id).eq('33029000025');
   });
 
   it('could list with creation date range', async function(){
@@ -290,8 +290,8 @@ describe('people', function(){
     let res = await axios.get(`${apiBaseUrl}/people`, {
       params: {
         size: 100,
-        idMin: '33001',
-        idMax: '33031',
+        idMin: '33029000001',
+        idMax: '33029000031',
         creationDateMin: '2020-12-20T00:00:00Z',
         creationDateMax: '2020-12-25T22:30:00Z',
       },
@@ -300,8 +300,8 @@ describe('people', function(){
     expect(res.data).to.have.length(11);
     expect(res.data[0]).is.an('object');
     expect(res.data[1]).is.an('object');
-    expect(res.data[0].id).equals('33030');
-    expect(res.data[1].id).equals('33029');
+    expect(res.data[0].id).equals('33029000030');
+    expect(res.data[1].id).equals('33029000029');
   });
 
   it('could list with last update date range', async function(){
@@ -309,18 +309,18 @@ describe('people', function(){
     let res = await axios.get(`${apiBaseUrl}/people`, {
       params: {
         size: 100,
-        idMin: '33001',
-        idMax: '33031',
+        idMin: '33029000001',
+        idMax: '33029000031',
         lastUpdatedMin: '2020-12-25T16:00:00Z',
         lastUpdatedMax: '2020-12-26T21:50:59Z',
       },
     });
     expect(res.data).is.an('array');
-    expect(res.data).to.have.length(15);
+    expect(res.data).to.have.length(14);
     expect(res.data[0]).is.an('object');
     expect(res.data[1]).is.an('object');
-    expect(res.data[0].id).equals('33030');
-    expect(res.data[1].id).equals('33025');
+    expect(res.data[0].id).equals('33029000030');
+    expect(res.data[1].id).equals('33029000025');
   });
 
   it('could list with id range', async function(){
@@ -328,16 +328,16 @@ describe('people', function(){
     let res = await axios.get(`${apiBaseUrl}/people`, {
       params: {
         size: 100,
-        idMin: '33001',
-        idMax: '33010',
+        idMin: '33029000001',
+        idMax: '33029000010',
       },
     });
     expect(res.data).is.an('array');
     expect(res.data).to.have.length(9);
     expect(res.data[0]).is.an('object');
     expect(res.data[1]).is.an('object');
-    expect(res.data[0].id).equals('33009');
-    expect(res.data[1].id).equals('33008');
+    expect(res.data[0].id).equals('33029000009');
+    expect(res.data[1].id).equals('33029000008');
   });
 
   it('could count all records', async function(){
@@ -351,8 +351,8 @@ describe('people', function(){
     // count records
     let res = await axios.get(`${apiBaseUrl}/people/count`, {
       params: {
-        idMin: '33001',
-        idMax: '33031',
+        idMin: '33029000001',
+        idMax: '33029000031',
         creationDateMin: '2020-12-20T00:00:00Z',
         creationDateMax: '2020-12-25T22:30:00Z',
       },
@@ -365,22 +365,22 @@ describe('people', function(){
     // count records
     let res = await axios.get(`${apiBaseUrl}/people/count`, {
       params: {
-        idMin: '33001',
-        idMax: '33031',
+        idMin: '33029000001',
+        idMax: '33029000031',
         lastUpdatedMin: '2020-12-25T16:00:00Z',
         lastUpdatedMax: '2020-12-26T21:50:59Z',
       },
     });
     expect(res.data).is.an('object');
-    expect(res.data.count).equals(15);
+    expect(res.data.count).equals(14);
   });
 
   it('could count records with id range', async function(){
     // count records
     let res = await axios.get(`${apiBaseUrl}/people/count`, {
       params: {
-        idMin: '33001',
-        idMax: '33010',
+        idMin: '33029000001',
+        idMax: '33029000010',
       },
     });
     expect(res.data).is.an('object');
@@ -404,6 +404,8 @@ describe('people search', function(){
       params: {
         namePattern: '^Wang$',
         size: 4,
+        lastUpdatedMin: '2020-01-01T00:00:00Z',
+        lastUpdatedMax: '2021-01-01T00:00:00Z',
       },
     });
     expect(res.data).is.an('array');
@@ -421,12 +423,14 @@ describe('people search', function(){
     expect(res.data[3].lastName).eq('Wang');
   });
 
-  it('could list people with last name', async function(){
+  it('could list people with last name ooo', async function(){
     // search people
     let res = await axios.get(`${apiBaseUrl}/people/search/withNameSimilarTo`, {
       params: {
         namePattern: '^Zh',
         size: 4,
+        lastUpdatedMin: '2020-01-01T00:00:00Z',
+        lastUpdatedMax: '2021-01-01T00:00:00Z',
       },
     });
     expect(res.data).is.an('array');
